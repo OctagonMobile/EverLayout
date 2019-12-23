@@ -99,7 +99,7 @@ public class ELViewModel: ELRawData
     ///
     /// - Parameter attribute: NSLayoutAttribute to match
     /// - Returns: Array of ELConstraints
-    public func getConstraints (forAttribute attribute : NSLayoutAttribute) -> [ELConstraint] {
+    public func getConstraints (forAttribute attribute : NSLayoutConstraint.Attribute) -> [ELConstraint] {
         return self.appliedConstraints.filter({ (constraint) -> Bool in
             return constraint.firstAttribute == attribute
         })
@@ -119,7 +119,7 @@ public class ELViewModel: ELRawData
     ///
     /// - Parameter attributes: Array of attributes to search
     /// - Returns: Array of ELConstraints that match
-    public func getConstraints (forAttributes attributes : [NSLayoutAttribute]) -> [ELConstraint] {
+    public func getConstraints (forAttributes attributes : [NSLayoutConstraint.Attribute]) -> [ELConstraint] {
         return self.appliedConstraints.filter({ (constraint) -> Bool in
             return attributes.contains(constraint.firstAttribute)
         })

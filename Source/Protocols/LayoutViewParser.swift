@@ -24,7 +24,7 @@ import UIKit
 
 public protocol LayoutViewParser : LayoutParser
 {
-    func view (source : Any) -> ELViewModel?
+    func view (source : Any?) -> ELViewModel?
     
     func viewId (source : Any?) -> String?
     
@@ -32,13 +32,13 @@ public protocol LayoutViewParser : LayoutParser
     
     func isNewElement (source : Any?) -> Bool
     
-    func viewProperties (source : Any) -> [ELViewProperty?]?
+    func viewProperties (source : Any?) -> [ELViewProperty?]?
     
-    func viewZIndex (source : Any) -> Int
+    func viewZIndex (source : Any?) -> Int
     
-    func viewConstraints (source : Any) -> [ELConstraintModel?]?
+    func viewConstraints (source : Any?) -> [ELConstraintModel?]?
     
-    func subviews (source : Any) -> [ELViewModel?]?
+    func subviews (source : Any?) -> [ELViewModel?]?
     
-    func templateLayout (source : Any) -> [String]?
+    func templateLayout (source : Any?) -> [String]?
 }

@@ -24,23 +24,23 @@ import UIKit
 
 public protocol LayoutConstraintParser : LayoutParser
 {
-    func leftSideAttributes (source : Any) -> [NSLayoutAttribute?]?
+    func leftSideAttributes (source : Any?) -> [NSLayoutConstraint.Attribute?]?
     
-    func relation (source : Any) -> NSLayoutRelation?
+    func relation (source : Any?) -> NSLayoutConstraint.Relation?
     
-    func constant (source : Any) -> ELConstraintConstant?
+    func constant (source : Any?) -> ELConstraintConstant?
     
-    func multiplier (source : Any) -> ELConstraintMultiplier?
+    func multiplier (source : Any?) -> ELConstraintMultiplier?
     
-    func priority (source : Any) -> CGFloat?
+    func priority (source : Any?) -> CGFloat?
     
-    func rightSideAttribute (source : Any) -> NSLayoutAttribute?
+    func rightSideAttribute (source : Any?) -> NSLayoutConstraint.Attribute?
     
-    func comparableViewReference (source: Any) -> String?
+    func comparableViewReference (source: Any?) -> String?
     
-    func verticalSizeClass (source : Any) -> UIUserInterfaceSizeClass?
+    func verticalSizeClass (source : Any?) -> UIUserInterfaceSizeClass?
     
-    func horizontalSizeClass (source: Any) -> UIUserInterfaceSizeClass?
+    func horizontalSizeClass (source: Any?) -> UIUserInterfaceSizeClass?
     
-    func identifier (source: Any) -> String?
+    func identifier (source: Any?) -> String?
 }

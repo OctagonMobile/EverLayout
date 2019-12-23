@@ -30,7 +30,7 @@ public class LayoutIndexJSONParser : NSObject , LayoutIndexParser
     public static let KEY_NAVBAR_PROPERTIES : String = "navigationBar"
     public static let KEY_TITLE : String = "controllerTitle"
     
-    private func parseData (source : Any) -> [String : JSON]?
+    private func parseData (source : Any?) -> [String : JSON]?
     {
         guard let source = source as? Data else { return nil }
         
@@ -41,7 +41,7 @@ public class LayoutIndexJSONParser : NSObject , LayoutIndexParser
     ///
     /// - Parameter source: raw data of the layout
     /// - Returns: Name of layout
-    public func layoutName (source : Any) -> String?
+    public func layoutName (source : Any?) -> String?
     {
         guard let source = self.parseData(source: source) else { return nil }
         
@@ -52,7 +52,7 @@ public class LayoutIndexJSONParser : NSObject , LayoutIndexParser
     ///
     /// - Parameter source: Raw layout data
     /// - Returns: Array of ELLayoutTemplate objects
-    public func layoutTemplates(source: Any) -> [ELLayoutTemplate?]? {
+    public func layoutTemplates(source: Any?) -> [ELLayoutTemplate?]? {
         guard let source = self.parseData(source: source) else { return nil }
         guard let templateData = source[LayoutIndexJSONParser.KEY_TEMPLATES]?.dictionary else { return nil }
         
@@ -68,7 +68,7 @@ public class LayoutIndexJSONParser : NSObject , LayoutIndexParser
     ///
     /// - Parameter source: raw data of the layout
     /// - Returns: EverLayoutView model of the root view
-    public func rootView(source: Any) -> ELViewModel?
+    public func rootView(source: Any?) -> ELViewModel?
     {
         guard let source = self.parseData(source: source) else { return nil }
         guard let viewData = source[LayoutIndexJSONParser.KEY_LAYOUT_ROOT]?.dictionary else { return nil }
@@ -80,7 +80,7 @@ public class LayoutIndexJSONParser : NSObject , LayoutIndexParser
     ///
     /// - Parameter source: raw data of the layout
     /// - Returns: Array of ELViewProperties
-    public func navigationBarProperties(source: Any) -> [ELViewProperty?]? {
+    public func navigationBarProperties(source: Any?) -> [ELViewProperty?]? {
         guard let source = self.parseData(source: source) else { return nil }
         guard let jsonData = source[LayoutIndexJSONParser.KEY_NAVBAR_PROPERTIES]?.dictionary else { return nil }
         
@@ -95,7 +95,7 @@ public class LayoutIndexJSONParser : NSObject , LayoutIndexParser
     ///
     /// - Parameter source: Raw layout data
     /// - Returns: String
-    public func controllerTitle (source : Any) -> String? {
+    public func controllerTitle (source : Any?) -> String? {
         guard let source = self.parseData(source: source) else { return nil }
         
         return source[LayoutIndexJSONParser.KEY_TITLE]?.string

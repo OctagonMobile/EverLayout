@@ -23,7 +23,7 @@
 import UIKit
 
 class LayoutConstraintJSONComprehensiveParser: LayoutConstraintJSONParser , LayoutConstraintParser {
-    private func parseSource (source : Any) -> (lhs: String , rhs: Dictionary<String , JSON>)? {
+    private func parseSource (source : Any?) -> (lhs: String , rhs: Dictionary<String , JSON>)? {
         guard let source = source as? (String , Dictionary<String , JSON>) else {
             ELReporter.default.error(message: "Constraint source in unrecognized format.")
             return nil
@@ -32,11 +32,11 @@ class LayoutConstraintJSONComprehensiveParser: LayoutConstraintJSONParser , Layo
         return (lhs: source.0 , rhs: source.1)
     }
     
-    func leftSideAttributes(source: Any) -> [NSLayoutAttribute?]? {
+    func leftSideAttributes(source: Any?) -> [NSLayoutConstraint.Attribute?]? {
         guard let source = self.parseSource(source: source) else { return nil }
         
         let comps = source.lhs.components(separatedBy: String(LayoutConstraintJSONShorthandParser.ATTRIBUTE_SEPARATOR))
-        var attrs = [NSLayoutAttribute]()
+        var attrs = [NSLayoutConstraint.Attribute]()
         
         for comp in comps
         {
@@ -53,7 +53,7 @@ class LayoutConstraintJSONComprehensiveParser: LayoutConstraintJSONParser , Layo
         return attrs
     }
     
-    func relation(source: Any) -> NSLayoutRelation? {
+    func relation(source: Any?) -> NSLayoutConstraint.Relation? {
         guard let source = self.parseSource(source: source) else { return nil }
         
         if let relation = source.rhs["relation"]?.string {
@@ -63,7 +63,7 @@ class LayoutConstraintJSONComprehensiveParser: LayoutConstraintJSONParser , Layo
         return .equal
     }
     
-    func constant(source: Any) -> ELConstraintConstant? {
+    func constant(source: Any?) -> ELConstraintConstant? {
         guard let source = self.parseSource(source: source) else { return nil }
         
         if let constant = source.rhs["constant"]?.float ?? source.rhs["constant"]?.string?.toCGFloat() {
@@ -75,7 +75,7 @@ class LayoutConstraintJSONComprehensiveParser: LayoutConstraintJSONParser , Layo
         return nil
     }
     
-    func multiplier(source: Any) -> ELConstraintMultiplier? {
+    func multiplier(source: Any?) -> ELConstraintMultiplier? {
         guard let source = self.parseSource(source: source) else { return nil }
         
         if let multiplier = source.rhs["multiplier"]?.float {
@@ -87,13 +87,13 @@ class LayoutConstraintJSONComprehensiveParser: LayoutConstraintJSONParser , Layo
         return nil
     }
     
-    func priority(source: Any) -> CGFloat? {
+    func priority(source: Any?) -> CGFloat? {
         guard let source = self.parseSource(source: source) else { return nil }
 
         return source.rhs["priority"]?.float ?? source.rhs["priority"]?.string?.toCGFloat()
     }
     
-    func rightSideAttribute(source: Any) -> NSLayoutAttribute? {
+    func rightSideAttribute(source: Any?) -> NSLayoutConstraint.Attribute? {
         guard let source = self.parseSource(source: source) else { return nil }
         
         if let attr = source.rhs["attribute"]?.string {
@@ -103,27 +103,27 @@ class LayoutConstraintJSONComprehensiveParser: LayoutConstraintJSONParser , Layo
         return nil
     }
     
-    func comparableViewReference(source: Any) -> String? {
+    func comparableViewReference(source: Any?) -> String? {
         guard let source = self.parseSource(source: source) else { return nil }
         
         return source.rhs["to"]?.string
     }
     
-    func verticalSizeClass(source: Any) -> UIUserInterfaceSizeClass? {
+    func verticalSizeClass(source: Any?) -> UIUserInterfaceSizeClass? {
         guard let source = self.parseSource(source: source) else { return nil }
         guard let sizeClassKey = source.rhs["verticalSizeClass"]?.string else { return nil }
         
         return LayoutConstraintJSONParser.COMP_SIZE_CLASS_KEYS[sizeClassKey]
     }
     
-    func horizontalSizeClass(source: Any) -> UIUserInterfaceSizeClass? {
+    func horizontalSizeClass(source: Any?) -> UIUserInterfaceSizeClass? {
         guard let source =  self.parseSource(source: source) else { return nil }
         guard let sizeClassKey = source.rhs["horizontalSizeClass"]?.string else { return nil }
         
         return LayoutConstraintJSONParser.COMP_SIZE_CLASS_KEYS[sizeClassKey]
     }
     
-    func identifier(source: Any) -> String? {
+    func identifier(source: Any?) -> String? {
         guard let source = self.parseSource(source: source) else { return nil }
         
         return source.rhs["identifier"]?.string

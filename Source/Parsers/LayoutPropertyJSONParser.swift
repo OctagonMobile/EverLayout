@@ -24,7 +24,7 @@ import UIKit
 
 class LayoutPropertyJSONParser: NSObject , LayoutPropertyParser
 {
-    private func parseSource (source : Any) -> (lhs : String , rhs : String)?
+    private func parseSource (source : Any?) -> (lhs : String , rhs : String)?
     {
         guard let source = source as? (String , String) else { return nil }
         
@@ -34,12 +34,12 @@ class LayoutPropertyJSONParser: NSObject , LayoutPropertyParser
         )
     }
     
-    func propertyName (source: Any) -> String?
+    func propertyName (source: Any?) -> String?
     {
         return self.parseSource(source: source)?.lhs
     }
     
-    func propertyValue (source: Any) -> String?
+    func propertyValue (source: Any?) -> String?
     {
         return self.parseSource(source: source)?.rhs
     }

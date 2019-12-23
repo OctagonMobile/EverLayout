@@ -40,7 +40,7 @@ internal extension Data {
             }
             self.append(buffer, count: read)
         }
-        buffer.deallocate(capacity: bufferSize)
+        buffer.deallocate()
     }
 }
 
@@ -101,8 +101,8 @@ public class EverLayoutBridge: NSObject , StreamDelegate {
         self.inputStream?.delegate = self.shared
         self.outputStream?.delegate = self.shared
         
-        self.inputStream?.schedule(in: .current, forMode: .defaultRunLoopMode)
-        self.outputStream?.schedule(in: .current, forMode: .defaultRunLoopMode)
+        self.inputStream?.schedule(in: .current, forMode: RunLoop.Mode.default)
+        self.outputStream?.schedule(in: .current, forMode: RunLoop.Mode.default)
         
         self.inputStream?.open()
         self.outputStream?.open()

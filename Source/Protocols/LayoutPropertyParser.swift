@@ -24,7 +24,7 @@ import UIKit
 
 public protocol LayoutPropertyParser : LayoutParser
 {
-    func propertyName (source : Any) -> String?
+    func propertyName (source : Any?) -> String?
     
-    func propertyValue (source : Any) -> String?
+    func propertyValue (source : Any?) -> String?
 }

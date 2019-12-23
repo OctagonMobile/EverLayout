@@ -28,11 +28,11 @@ import UIKit
 
 extension UIView : FrameMappable {
     @objc func mapFrame(_ frame: String) {
-        self.frame = CGRectFromString(frame)
+        self.frame = NSCoder.cgRect(for: frame)
     }
     
     @objc func getMappedFrame() -> String? {
-        return NSStringFromCGRect(self.frame) as String
+        return NSCoder.string(for: self.frame) as String
     }
 }
 
@@ -102,7 +102,7 @@ extension UIView : ClipBoundsMappable {
     }
 }
 extension UIView : ContentModeMappable {
-    internal var contentModes : [String : UIViewContentMode] {
+    internal var contentModes : [String : UIView.ContentMode] {
         return [
             "scaleToFill" : .scaleToFill,
             "scaleAspectFit" : .scaleAspectFit,

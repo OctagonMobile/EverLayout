@@ -24,10 +24,10 @@ import UIKit
 
 public protocol LayoutTemplateParser: LayoutParser {
     
-    func templateId (source : Any) -> String?
+    func templateId (source : Any?) -> String?
     
-    func constraints (source : Any) -> [ELConstraintModel?]?
+    func constraints (source : Any?) -> [ELConstraintModel?]?
     
-    func properties (source : Any) -> [ELViewProperty?]?
+    func properties (source : Any?) -> [ELViewProperty?]?
     
 }

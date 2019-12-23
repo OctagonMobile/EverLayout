@@ -20,19 +20,19 @@ class LayoutTemplateJSONParser: NSObject , LayoutTemplateParser {
         return (templateId : source.0 , templateData : templateData)
     }
     
-    func templateId(source: Any) -> String? {
+    func templateId(source: Any?) -> String? {
         guard let source = self.parseSource(source: source) else { return nil }
         
         return source.templateId
     }
     
-    func constraints(source: Any) -> [ELConstraintModel?]? {
+    func constraints(source: Any?) -> [ELConstraintModel?]? {
         guard let source = self.parseSource(source: source) else { return nil }
         
         return self.viewParser.viewConstraints(source: (source.0 , source.1))
     }
     
-    func properties(source: Any) -> [ELViewProperty?]? {
+    func properties(source: Any?) -> [ELViewProperty?]? {
         guard let source = self.parseSource(source: source) else { return nil }
         
         return self.viewParser.viewProperties(source: (source.0 , source.1))

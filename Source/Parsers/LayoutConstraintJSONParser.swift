@@ -24,7 +24,7 @@ import UIKit
 
 class LayoutConstraintJSONParser: NSObject {
     // Shared properties
-    public static let ATTRIBUTE_KEYS : [String : NSLayoutAttribute] = [
+    public static let ATTRIBUTE_KEYS : [String : NSLayoutConstraint.Attribute] = [
         "left": .left,
         "right": .right,
         "top": .top,
@@ -46,21 +46,21 @@ class LayoutConstraintJSONParser: NSObject {
         "centerXWithinMargins": .centerXWithinMargins,
         "centerYWithinMargins": .centerYWithinMargins
     ]
-    public static let COMPOUND_ATTRIBUTE_KEYS : [String : [NSLayoutAttribute]] = [
+    public static let COMPOUND_ATTRIBUTE_KEYS : [String : [NSLayoutConstraint.Attribute]] = [
         "edges": [.top, .left, .bottom, .right],
         "margins": [.leftMargin , .rightMargin],
         "center": [.centerX, .centerY]
     ]
     public static let ATTRIBUTE_SEPARATOR : Character = " "
-    private static let INDEPENDANT_ATTRIBUTE_KEYS : [NSLayoutAttribute] = [
+    private static let INDEPENDANT_ATTRIBUTE_KEYS : [NSLayoutConstraint.Attribute] = [
         .width,
         .height
     ]
     
     // Comprehensive properties
-    public static let COMP_RELATION_KEYS : [String : NSLayoutRelation] = [
-        "gte": NSLayoutRelation.greaterThanOrEqual,
-        "lte": NSLayoutRelation.lessThanOrEqual
+    public static let COMP_RELATION_KEYS : [String : NSLayoutConstraint.Relation] = [
+        "gte": NSLayoutConstraint.Relation.greaterThanOrEqual,
+        "lte": NSLayoutConstraint.Relation.lessThanOrEqual
     ]
     public static let COMP_SIZE_CLASS_KEYS : [String : UIUserInterfaceSizeClass] = [
         "compact": .compact,
@@ -68,10 +68,10 @@ class LayoutConstraintJSONParser: NSObject {
     ]
     
     // Shorthand properties
-    public static let SHORT_RELATION_KEYS : [String : NSLayoutRelation] = [
-        "<=" : NSLayoutRelation.lessThanOrEqual,
-        "=": NSLayoutRelation.equal,
-        ">=": NSLayoutRelation.greaterThanOrEqual
+    public static let SHORT_RELATION_KEYS : [String : NSLayoutConstraint.Relation] = [
+        "<=" : NSLayoutConstraint.Relation.lessThanOrEqual,
+        "=": NSLayoutConstraint.Relation.equal,
+        ">=": NSLayoutConstraint.Relation.greaterThanOrEqual
     ]
     public static let SHORT_SIZE_CLASS_KEYS : [String : UIUserInterfaceSizeClass] = [
         "c": .compact,

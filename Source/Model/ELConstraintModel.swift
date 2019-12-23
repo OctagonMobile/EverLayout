@@ -26,10 +26,10 @@ public class ELConstraintModel: ELRawData
 {
     public var constraintParser : LayoutConstraintParser!
     
-    public var leftSideAttributes : [NSLayoutAttribute?]? {
+    public var leftSideAttributes : [NSLayoutConstraint.Attribute?]? {
         return self.constraintParser.leftSideAttributes(source: self.rawData)
     }
-    public var rightSideAttribute : NSLayoutAttribute? {
+    public var rightSideAttribute : NSLayoutConstraint.Attribute? {
         return self.constraintParser.rightSideAttribute(source: self.rawData)
     }
     public var constant : ELConstraintConstant {
@@ -41,7 +41,7 @@ public class ELConstraintModel: ELRawData
     public var priority : CGFloat? {
         return self.constraintParser.priority(source: self.rawData)
     }
-    public var relation : NSLayoutRelation {
+    public var relation : NSLayoutConstraint.Relation {
         return self.constraintParser.relation(source: self.rawData) ?? .equal
     }
     public var comparableViewReference : String? {
@@ -100,14 +100,14 @@ public class ELConstraintModel: ELRawData
             constraint.identifier = self.identifier
             
             // Add the constraint to the root view
-            let constraintTarget = viewIndex.rootView() ?? target.superview ?? target
+//            let constraintTarget = viewIndex.rootView() ?? target.superview ?? target
             
             // Check that these the view and comparable view are in the same hierarchy before
             // adding the constraint as this will cause a crash
             if target.sharesAncestry(withView: context.comparableView ?? target) {
                 // Add this constraint to the applied constraints of the ELView
                 view.appliedConstraints.append(constraint)
-                constraintTarget.addConstraint(constraint)
+                constraint.isActive = true
             } else {
                 if let identifier = self.identifier {
                     ELReporter.default.error(message: "Some views do not share a view ancestry and so this constraint cannot be made. Constraint: \(identifier)")

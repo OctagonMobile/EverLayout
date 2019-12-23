@@ -52,7 +52,7 @@ class LayoutViewJSONParser: NSObject , LayoutViewParser
     public static let MOD_NEW_ELEM : Character = "!"
     public static let MOD_SUPERCLASS : Character = ":"
     
-    private func parseSource (source : Any) -> (viewId : String , viewData : [String: JSON])?
+    private func parseSource (source : Any?) -> (viewId : String , viewData : [String: JSON])?
     {
         guard let source = source as? (String , [String : JSON]) else { return nil }
         
@@ -70,7 +70,7 @@ class LayoutViewJSONParser: NSObject , LayoutViewParser
         return source.viewId
     }
     
-    func view (source: Any) -> ELViewModel?
+    func view (source: Any?) -> ELViewModel?
     {
         guard let source = self.parseSource(source: source) else { return nil }
         
@@ -87,9 +87,9 @@ class LayoutViewJSONParser: NSObject , LayoutViewParser
         
         // The id is responsible for declaring if an element is new and if the element subclasses a UIView subclass.
         // We need to parse the id to only return the id of the view
-        if id.characters.first == LayoutViewJSONParser.MOD_NEW_ELEM { id.characters.removeFirst() }
+        if id.first == LayoutViewJSONParser.MOD_NEW_ELEM { id.removeFirst() }
         
-        if let index = id.characters.index(of: LayoutViewJSONParser.MOD_SUPERCLASS)
+        if let index = id.firstIndex(of: LayoutViewJSONParser.MOD_SUPERCLASS)
         {
             id = id.substring(to: index)
         }
@@ -99,11 +99,11 @@ class LayoutViewJSONParser: NSObject , LayoutViewParser
     
     func viewSuperClass (source: Any?) -> UIView.Type?
     {
-        guard var id = self.rawViewId(source: source) else { return nil }
+        guard let id = self.rawViewId(source: source) else { return nil }
         
         // The id may or may not contain info on a superclass for which this view must subclass
         // The superlcass is only valid if this view is marked as a newElement
-        if self.isNewElement(source: source) == true , let index = id.characters.index(of: LayoutViewJSONParser.MOD_SUPERCLASS)
+        if self.isNewElement(source: source) == true , let index = id.firstIndex(of: LayoutViewJSONParser.MOD_SUPERCLASS)
         {
             let className = id.substring(from: id.index(after: index))
             
@@ -121,14 +121,14 @@ class LayoutViewJSONParser: NSObject , LayoutViewParser
     {
         guard let id = self.rawViewId(source: source) else { return false }
         
-        return id.characters.first == LayoutViewJSONParser.MOD_NEW_ELEM
+        return id.first == LayoutViewJSONParser.MOD_NEW_ELEM
     }
     
     /// Parse view properties
     ///
     /// - Parameter source: raw view model data
     /// - Returns: Array of EverLayoutViewProperties
-    func viewProperties (source: Any) -> [ELViewProperty?]?
+    func viewProperties (source: Any?) -> [ELViewProperty?]?
     {
         guard let source = self.parseSource(source: source) else { return nil }
         guard let jsonData = source.viewData[LayoutViewJSONParser.KEY_PROPERTIES]?.dictionary else { return nil }
@@ -144,7 +144,7 @@ class LayoutViewJSONParser: NSObject , LayoutViewParser
     ///
     /// - Parameter source: raw view model data
     /// - Returns: Array of EverLayoutConstraints
-    func viewConstraints (source: Any) -> [ELConstraintModel?]?
+    func viewConstraints (source: Any?) -> [ELConstraintModel?]?
     {
         guard let source = self.parseSource(source: source) else { return nil }
         guard let jsonData = source.viewData[LayoutViewJSONParser.KEY_CONSTRAINTS]?.dictionary else { return nil }
@@ -180,7 +180,7 @@ class LayoutViewJSONParser: NSObject , LayoutViewParser
     ///
     /// - Parameter source: raw view model data
     /// - Returns: z-index of view as Int
-    func viewZIndex (source: Any) -> Int
+    func viewZIndex (source: Any?) -> Int
     {
         guard let source = self.parseSource(source: source) else { return 0 }
         guard let zIndex = source.viewData[LayoutViewJSONParser.KEY_Z_INDEX]?.string else { return 0 }
@@ -192,7 +192,7 @@ class LayoutViewJSONParser: NSObject , LayoutViewParser
     ///
     /// - Parameter source: raw view model data
     /// - Returns: Dictionary of subviews, with a String key for the view ID and the value is the view data
-    func subviews(source: Any) -> [ELViewModel?]?
+    func subviews(source: Any?) -> [ELViewModel?]?
     {
         guard let source = self.parseSource(source: source) else { return nil }
         guard let subviewData = source.viewData[LayoutViewJSONParser.KEY_SUBVIEWS]?.dictionary else { return nil }
@@ -214,7 +214,7 @@ class LayoutViewJSONParser: NSObject , LayoutViewParser
     ///
     /// - Parameter source: raw view model data
     /// - Returns: Array of sub layout names
-    func templateLayout(source: Any) -> [String]? {
+    func templateLayout(source: Any?) -> [String]? {
         guard let source = self.parseSource(source: source) else { return nil }
         let templates = source.viewData[LayoutViewJSONParser.KEY_TEMPLATE]
         

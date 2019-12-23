@@ -33,7 +33,7 @@ class LayoutConstraintJSONShorthandParser: LayoutConstraintJSONParser , LayoutCo
     ///
     /// - Parameter source: Raw source data
     /// - Returns: (lhs: String , rhs: String)
-    private func parseSource (source : Any) -> (lhs : String , rhs : String)?
+    private func parseSource (source : Any?) -> (lhs : String , rhs : String)?
     {
         guard let source = source as? (String , String) else {
             ELReporter.default.error(message: "Constraint source in unrecognized format.")
@@ -64,10 +64,10 @@ class LayoutConstraintJSONShorthandParser: LayoutConstraintJSONParser , LayoutCo
         
         for arg in arguments
         {
-            if arg.characters.first == mod
+            if arg.first == mod
             {
                 var value = arg
-                value.characters.removeFirst()
+                value.removeFirst()
                 
                 return value
             }
@@ -118,7 +118,7 @@ class LayoutConstraintJSONShorthandParser: LayoutConstraintJSONParser , LayoutCo
         guard var targetViewId = self.parseTargetViewId(source: source) else { return nil }
         
         // The target view id may contain a right side attribute, we need to strip it
-        if let index = targetViewId.characters.index(of: LayoutConstraintJSONShorthandParser.VIEW_ATTRIBUTE_SEPARATOR)
+        if let index = targetViewId.firstIndex(of: LayoutConstraintJSONShorthandParser.VIEW_ATTRIBUTE_SEPARATOR)
         {
             targetViewId = targetViewId.substring(to: index)
         }
@@ -130,14 +130,14 @@ class LayoutConstraintJSONShorthandParser: LayoutConstraintJSONParser , LayoutCo
     ///
     /// - Parameter source: raw constraint data
     /// - Returns: Array of NSLayoutAttribute
-    func leftSideAttributes (source: Any) -> [NSLayoutAttribute?]?
+    func leftSideAttributes (source: Any?) -> [NSLayoutConstraint.Attribute?]?
     {
         guard let source = self.parseSource(source: source) else { return nil }
         
         // Left hand attributes are noted in the LHS and are separated by ATTRIBUTE_SEPARATOR
         guard let comps = self.parseArguments(fromString: source.lhs) else { return nil }
         
-        var attrs = [NSLayoutAttribute]()
+        var attrs = [NSLayoutConstraint.Attribute]()
         
         for comp in comps
         {
@@ -158,7 +158,7 @@ class LayoutConstraintJSONShorthandParser: LayoutConstraintJSONParser , LayoutCo
     ///
     /// - Parameter source: raw constraint data
     /// - Returns: NSLayoutRelation
-    func relation (source: Any) -> NSLayoutRelation?
+    func relation (source: Any?) -> NSLayoutConstraint.Relation?
     {
         guard let source = self.parseSource(source: source) else { return nil }
         
@@ -175,7 +175,7 @@ class LayoutConstraintJSONShorthandParser: LayoutConstraintJSONParser , LayoutCo
     ///
     /// - Parameter source: raw constraint data
     /// - Returns: EverLayotuConstraintConstant
-    func constant (source: Any) -> ELConstraintConstant?
+    func constant (source: Any?) -> ELConstraintConstant?
     {
         guard let source = self.parseSource(source: source) else { return nil }
         
@@ -203,7 +203,7 @@ class LayoutConstraintJSONShorthandParser: LayoutConstraintJSONParser , LayoutCo
     ///
     /// - Parameter source: raw constraint data
     /// - Returns: CFloat for multiplier
-    func multiplier (source: Any) -> ELConstraintMultiplier?
+    func multiplier (source: Any?) -> ELConstraintMultiplier?
     {
         guard let source = self.parseSource(source: source) else { return nil }
         
@@ -227,7 +227,7 @@ class LayoutConstraintJSONShorthandParser: LayoutConstraintJSONParser , LayoutCo
     ///
     /// - Parameter source: raw constraint data
     /// - Returns: CGFloat for constraint priority
-    func priority (source: Any) -> CGFloat?
+    func priority (source: Any?) -> CGFloat?
     {
         guard let source = self.parseSource(source: source) else { return nil }
         
@@ -246,13 +246,13 @@ class LayoutConstraintJSONShorthandParser: LayoutConstraintJSONParser , LayoutCo
     ///
     /// - Parameter source: raw constraint data
     /// - Returns: NSLayoutAttribute
-    func rightSideAttribute (source: Any) -> NSLayoutAttribute?
+    func rightSideAttribute (source: Any?) -> NSLayoutConstraint.Attribute?
     {
         guard let targetView = self.parseTargetViewId(source: source) else { return nil }
         
         // A right side attribute is noted by appending the attribute name to the end of the target view's ID using 
         // VIEW_ATTRIBUTE_SEPARATOR
-        if let index = targetView.characters.index(of: LayoutConstraintJSONShorthandParser.VIEW_ATTRIBUTE_SEPARATOR)
+        if let index = targetView.firstIndex(of: LayoutConstraintJSONShorthandParser.VIEW_ATTRIBUTE_SEPARATOR)
         {
             let attributeName = targetView.substring(from: targetView.index(after: index))
             
@@ -266,19 +266,19 @@ class LayoutConstraintJSONShorthandParser: LayoutConstraintJSONParser , LayoutCo
     ///
     /// - Parameter source: raw constraint data
     /// - Returns: Name of view
-    func comparableViewReference (source: Any) -> String?
+    func comparableViewReference (source: Any?) -> String?
     {
         return self.parseTargetViewName(source: source)
     }
     
-    func verticalSizeClass(source: Any) -> UIUserInterfaceSizeClass? {
+    func verticalSizeClass(source: Any?) -> UIUserInterfaceSizeClass? {
         guard let source = self.parseSource(source: source) else { return nil }
         guard let value = self.valueForArgument(withModCharacter: LayoutConstraintJSONParser.MOD_VERT_SC, argumentString: source.rhs) else { return nil }
         
         return LayoutConstraintJSONParser.SHORT_SIZE_CLASS_KEYS[value]
     }
     
-    func horizontalSizeClass(source: Any) -> UIUserInterfaceSizeClass? {
+    func horizontalSizeClass(source: Any?) -> UIUserInterfaceSizeClass? {
         guard let source = self.parseSource(source: source) else { return nil }
         guard let value = self.valueForArgument(withModCharacter: LayoutConstraintJSONParser.MOD_HOR_SC, argumentString: source.rhs) else { return nil }
         
@@ -289,7 +289,7 @@ class LayoutConstraintJSONShorthandParser: LayoutConstraintJSONParser , LayoutCo
     ///
     /// - Parameter source: raw constraint data
     /// - Returns: String identifier
-    func identifier(source: Any) -> String?
+    func identifier(source: Any?) -> String?
     {
         guard let source = self.parseSource(source: source) else { return nil }
         

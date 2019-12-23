@@ -24,31 +24,31 @@ import UIKit
 
 struct ELConstraintContext
 {
-    private static let INDEPENDANT_ATTRIBUTES : [NSLayoutAttribute] = [
+    private static let INDEPENDANT_ATTRIBUTES : [NSLayoutConstraint.Attribute] = [
         .width , .height
     ]
-    private static let PERSPECTIVE_INSET_ATTRIBUTES : [NSLayoutAttribute] = [
+    private static let PERSPECTIVE_INSET_ATTRIBUTES : [NSLayoutConstraint.Attribute] = [
         .right , .bottom , .width , .height , .rightMargin
     ]
-    private static let PERSPECTIVE_OFFSET_ATTRIBUTES : [NSLayoutAttribute] = [
+    private static let PERSPECTIVE_OFFSET_ATTRIBUTES : [NSLayoutConstraint.Attribute] = [
         .left , .top , .width , .height
     ]
     
     var _target : UIView
-    var _leftSideAttribute : NSLayoutAttribute
-    var _relation : NSLayoutRelation
+    var _leftSideAttribute : NSLayoutConstraint.Attribute
+    var _relation : NSLayoutConstraint.Relation
     var _comparableView : UIView?
-    var _rightSideAttribute : NSLayoutAttribute?
+    var _rightSideAttribute : NSLayoutConstraint.Attribute?
     var _constant : ELConstraintConstant
     var _multiplier : ELConstraintMultiplier
     
     var target : UIView {
         return self._target
     }
-    var leftSideAttribute : NSLayoutAttribute {
+    var leftSideAttribute : NSLayoutConstraint.Attribute {
         return self._leftSideAttribute
     }
-    var relation : NSLayoutRelation {
+    var relation : NSLayoutConstraint.Relation {
         return self._relation
     }
     var comparableView : UIView? {
@@ -59,7 +59,7 @@ struct ELConstraintContext
         
         return self._comparableView
     }
-    var rightSideAttribute : NSLayoutAttribute? {
+    var rightSideAttribute : NSLayoutConstraint.Attribute? {
         if ELConstraintContext.INDEPENDANT_ATTRIBUTES.contains(self.leftSideAttribute) && self._comparableView == nil
         {
             return .notAnAttribute

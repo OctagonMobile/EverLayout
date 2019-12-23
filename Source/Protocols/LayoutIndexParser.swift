@@ -24,13 +24,13 @@ import UIKit
 
 public protocol LayoutIndexParser : LayoutParser
 {
-    func layoutName (source : Any) -> String?
+    func layoutName (source : Any?) -> String?
     
-    func rootView (source : Any) -> ELViewModel?
+    func rootView (source : Any?) -> ELViewModel?
     
-    func layoutTemplates (source : Any) -> [ELLayoutTemplate?]?
+    func layoutTemplates (source : Any?) -> [ELLayoutTemplate?]?
     
-    func navigationBarProperties (source : Any) -> [ELViewProperty?]?
+    func navigationBarProperties (source : Any?) -> [ELViewProperty?]?
     
-    func controllerTitle (source : Any) -> String?
+    func controllerTitle (source : Any?) -> String?
 }
